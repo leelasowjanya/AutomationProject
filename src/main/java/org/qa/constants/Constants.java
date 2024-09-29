@@ -2,6 +2,8 @@ package org.qa.constants;
 
 public class Constants {
     public static final String zoho_url="https://crm.zoho.in/";
+    public static final String companyErrorMessage = "Company cannot be empty.";
+    public static final String lastNameErrorMessage = "Last Name cannot be empty.";
     public  enum LeadStatus{
         ATTEMPTED_TO_CONTACT,
         CONTACT_IN_FUTURE,
