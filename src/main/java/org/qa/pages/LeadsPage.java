@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.qa.constants.Constants;
+import org.testng.Assert;
 
 public class LeadsPage extends BasePage{
     @FindBy(xpath = "//button[@aria-label='Create Lead']")
@@ -30,6 +31,7 @@ public class LeadsPage extends BasePage{
     public static WebElement countryField;
     @FindBy(id = "Crm_Leads_CODE_LInput")
     public static WebElement zipCodeField;
+   // @FindBy(xpath = "//*[@id='Crm_Leads_DESCRIPTION']/div")
     @FindBy(id = "Crm_Leads_DESCRIPTION")
     public static WebElement descriptionField;
     @FindBy(id = "Crm_Leads_STATUS")
@@ -109,7 +111,13 @@ public class LeadsPage extends BasePage{
     public static WebElement twitterField;
     @FindBy(id = "Crm_Leads_RATING")
     public static WebElement ratingField;
+    @FindBy(id = "errorMsg_Crm_Leads_COMPANY")
+    public static WebElement companyError;
+    @FindBy(id = "errorMsg_Crm_Leads_LASTNAME")
+    public static WebElement lastNameError;
     public  String  ratingValue = "//*[@data-value='ratingValue']";
+    @FindBy(xpath = "//button[@aria-label='Edit']")
+    public static WebElement editButton;
     public LeadsPage(WebDriver driver) {
         super(driver);
     }
@@ -152,71 +160,71 @@ public class LeadsPage extends BasePage{
         firstNameField.sendKeys(firstName);
     }
     public void sendEmail(String email){
-        elementToBeVisible(emailField);
+        scrollToTheElement(descriptionField);
         emailField.sendKeys(email);
     }
     public void sendWebsite(String website){
-        elementToBeVisible(websiteField);
+        scrollToTheElement(descriptionField);
         websiteField.sendKeys(website);
     }
     public void sendFax(String fax){
-        elementToBeVisible(faxField);
+        scrollToTheElement(descriptionField);
         faxField.sendKeys(fax);
     }
     public void sendMobileNumber(long mobile){
-        elementToBeVisible(mobileField);
+        scrollToTheElement(descriptionField);
         mobileField.sendKeys(""+mobile);
     }
     public void sendPhoneNumber(long phone){
-        elementToBeVisible(phoneField);
+        scrollToTheElement(descriptionField);
         phoneField.sendKeys(""+phone);
     }
     public void sendTitle(String title){
-        elementToBeVisible(titleField);
+        scrollToTheElement(descriptionField);
         titleField.sendKeys(title);
     }
     public void sendStreetName(String street){
-        elementToBeVisible(streetField);
+        scrollToTheElement(descriptionField);
         streetField.sendKeys(street);
     }
     public void sendCityName(String city){
-        elementToBeVisible(cityField);
+        scrollToTheElement(descriptionField);
         cityField.sendKeys(city);
     }
     public void sendStateName(String state){
-        elementToBeVisible(stateField);
+        scrollToTheElement(descriptionField);
         stateField.sendKeys(state);
     }
     public void sendCountryName(String country){
-        elementToBeVisible(countryField);
+        scrollToTheElement(descriptionField);
         countryField.sendKeys(country);
     }
     public void sendZipCode(String zipCode){
-        elementToBeVisible(zipCodeField);
+        scrollToTheElement(descriptionField);
         zipCodeField.sendKeys(zipCode);
     }
-    public void sendDescription(String description){
-        elementToBeVisible(descriptionField);
+    public void sendDescription(String description) {
+        scrollToTheElement(descriptionField);
         descriptionField.sendKeys(description);
     }
     public void sendNoOfEmployees(String noOfEmployees){
-        elementToBeVisible(noEmployeesField);
+        scrollToTheElement(descriptionField);
         noEmployeesField.sendKeys(noOfEmployees);
     }
     public void sendSkypeID(String skypeID){
-        elementToBeVisible(skypeIdField);
+        scrollToTheElement(descriptionField);
         skypeIdField.sendKeys(skypeID);
     }
     public void sendSecondaryEmail(String secondaryEmail){
-        elementToBeVisible(secondaryEmailField);
+        scrollToTheElement(descriptionField);
         secondaryEmailField.sendKeys(secondaryEmail);
     }
     public void sendTwitterValue(String twitter){
-        elementToBeVisible(twitterField);
+        scrollToTheElement(descriptionField);
         twitterField.sendKeys(twitter);
     }
     public void sendAnnualRevenue(long annualRevenue){
-        elementToBeVisible(annualRevenueField);
+        scrollToTheElement(descriptionField);
         annualRevenueField.sendKeys(""+annualRevenue);
     }
     public void sendMandatoryDetails(String company, String lastname){
@@ -230,7 +238,10 @@ public class LeadsPage extends BasePage{
         sendCountryName(address.country);
         sendZipCode(address.zipcode);
     }
-    public void sendLeadInformation(){
+    public void verifyErrorMessage(WebElement element, String expectedErrorMessage){
+        elementToBeVisible(element);
+        String actualMessage = element.getText();
+        Assert.assertEquals(actualMessage,expectedErrorMessage,"Error message is not same ");
     }
     public void selectLeadStatus(Constants.LeadStatus leadStatus){
         elementToBeVisible(leadStatusField);
@@ -272,7 +283,7 @@ public class LeadsPage extends BasePage{
     Overriding industry value field based on option selected and clicked from the dropdown
      */
     public void selectIndustry(Constants.Industry industry){
-        elementToBeVisible(industryField);
+        scrollToTheElement(industryField);
         industryField.click();
         switch (industry){
             case ASP:
@@ -352,7 +363,7 @@ public class LeadsPage extends BasePage{
     Overriding rating value field based on option selected and clicked from the dropdown
      */
     public void selectRating(Constants.Rating rating) {
-        elementToBeVisible(ratingField);
+        scrollToTheElement(ratingField);
         ratingField.click();
         switch (rating) {
             case ACQUIRED:
@@ -379,5 +390,9 @@ public class LeadsPage extends BasePage{
     }
     public void clickOnSave(){
         saveButton.click();
+    }
+    public boolean isLeadCreated(){
+        elementToBeVisible(editButton);
+        return editButton.isDisplayed();
     }
 }
