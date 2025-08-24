@@ -1,0 +1,19 @@
+name: Run Selenium Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Run Tests on Selenium Grid
+        run: mvn test -Dselenium.grid.url=http://<your-ec2-public-ip>:4444/wd/hub
